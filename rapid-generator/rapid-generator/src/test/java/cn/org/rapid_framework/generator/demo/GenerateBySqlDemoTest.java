@@ -1,11 +1,11 @@
 package cn.org.rapid_framework.generator.demo;
 
-import java.io.File;
-
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorTestCase;
 import cn.org.rapid_framework.generator.provider.db.sql.SqlFactory;
 import cn.org.rapid_framework.generator.provider.db.sql.model.Sql;
+
+import java.net.URL;
 
 public class GenerateBySqlDemoTest extends GeneratorTestCase{
 	GeneratorFacade generatorFacade = new GeneratorFacade();
@@ -16,7 +16,10 @@ public class GenerateBySqlDemoTest extends GeneratorTestCase{
 	}
 	
 	public void test_generate_by_sql() throws Exception {
-		generatorFacade.getGenerator().addTemplateRootDir(new File("for_test_select_sql"));
+		URL url = this.getClass().getClassLoader().getResource("for_test_select_sql");
+		System.out.println("=============" + url);
+
+		generatorFacade.getGenerator().addTemplateRootDir(url.getFile());
 		Sql sql = new SqlFactory().parseSql("select * from user_info where username=#username# and password=#password#");
 		sql.setMultiplicity("many");  //many or one
 		sql.setOperation("findByUsernameAndPassword");

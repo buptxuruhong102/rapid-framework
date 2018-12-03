@@ -24,6 +24,7 @@
 	 <module>rapid-core</module>
 	 <module>rapid-generator</module>
 	 <module>rapid-maven-plugin</module>
+		<module>demojdbc</module>
 	</modules>
 
 	<scm>

@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.util.logging.Logger;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -101,6 +103,10 @@ public class DataSourceProvider {
 
 		public int getLoginTimeout() throws SQLException {
 			throw new UnsupportedOperationException("getLoginTimeout");
+		}
+
+		public Logger getParentLogger()  {
+			return null;
 		}
 
 		public void setLogWriter(PrintWriter out) throws SQLException {

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="Employee">
+
+	<resultMap id="RM.Employee" type="com.jd.springmvcbase.model.Employee">
+        <result property="employeeid" column="employeeid"/>
+        <result property="employeename" column="employeename"/>
+        <result property="workpostid" column="workpostid"/>
+        <result property="workpostname" column="workpostname"/>
+        <result property="entrytime" column="entrytime"/>
+        <result property="leavetime" column="leavetime"/>
+        <result property="phone" column="phone"/>
+        <result property="salary" column="salary"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Employee.columns">
+	    <![CDATA[
+		employeeid,employeename,workpostid,workpostname,entrytime,leavetime,phone,salary
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="Employee.insert" useGeneratedKeys="true" keyProperty="employeeid">
+    <![CDATA[
+        INSERT INTO employee (
+         employeeid, employeename, workpostid, workpostname, entrytime, leavetime, phone, salary
+        ) VALUES (
+         #{employeeid}, #{employeename}, #{workpostid}, #{workpostname}, #{entrytime}, #{leavetime}, #{phone}, #{salary}        
+        )
+    ]]>
+		<!--	
+			oracle: order="BEFORE" SELECT sequenceName.nextval AS ID FROM DUAL 
+			DB2: order="BEFORE"" values nextval for sequenceName
+		<selectKey resultType="java.lang.Long" order="BEFORE" keyProperty="userId">
+			SELECT sequenceName.nextval AS ID FROM DUAL 
+        </selectKey>
+		-->
+	</insert>
+    
+	<update id="Employee.update" >
+    <![CDATA[
+        UPDATE employee SET
+	        employeename = #{employeename} , workpostid = #{workpostid} , workpostname = #{workpostname} , entrytime = #{entrytime} , leavetime = #{leavetime} , phone = #{phone} , salary = #{salary}  
+        WHERE 
+        	employeeid = #{employeeid}  	        
+    ]]>
+	</update>
+
+    <delete id="Employee.delete">
+    <![CDATA[
+        DELETE FROM employee WHERE
+        employeeid = #{id} 
+    ]]>
+    </delete>
+    
+    <select id="Employee.getById" resultMap="RM.Employee">
+		SELECT <include refid="Employee.columns" />
+	    <![CDATA[
+		    FROM employee 
+	        WHERE 
+		        employeeid = #{id} 
+	    ]]>
+	</select>
+	
+	<sql id="Employee.findPage.where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args),以下为调用rapid中的Ognl.isNotEmpty()方法,还有其它方法如isNotBlank()可以使用，具体请查看Ognl类 -->
+		<where>	      				
+	       <if test="@Ognl@isNotEmpty(employeeid)">
+				AND employeeid = #{employeeid}
+			</if>
+	       <if test="@Ognl@isNotEmpty(employeename)">
+				AND employeename = #{employeename}
+			</if>
+	       <if test="@Ognl@isNotEmpty(workpostid)">
+				AND workpostid = #{workpostid}
+			</if>
+	       <if test="@Ognl@isNotEmpty(workpostname)">
+				AND workpostname = #{workpostname}
+			</if>
+	       <if test="@Ognl@isNotEmpty(entrytimeBegin)">
+				AND entrytime >= #{entrytimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(entrytimeEnd)">
+				AND entrytime &lt;= #{entrytimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(leavetimeBegin)">
+				AND leavetime >= #{leavetimeBegin}
+		   </if>
+		   <if test="@Ognl@isNotEmpty(leavetimeEnd)">
+				AND leavetime &lt;= #{leavetimeEnd}
+		   </if>
+	       <if test="@Ognl@isNotEmpty(phone)">
+				AND phone = #{phone}
+			</if>
+	       <if test="@Ognl@isNotEmpty(salary)">
+				AND salary = #{salary}
+			</if>
+		</where>
+	</sql>
+		
+    <select id="Employee.findPage.count" resultType="long">
+        SELECT count(*) FROM employee 
+		<include refid="Employee.findPage.where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 offset,pageSize,lastRows 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="Employee.findPage" resultMap="RM.Employee">
+    	SELECT <include refid="Employee.columns" />
+	    FROM employee 
+		<include refid="Employee.findPage.where"/>
+		
+		<if test="@Ognl@isNotEmpty(sortColumns)">
+			ORDER BY ${sortColumns}
+		</if>
+    </select>
+
+	
+</mapper>
+

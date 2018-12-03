@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee [url]http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd[/url]" version="2.0">
+    <tlib-version>1.0</tlib-version>
+<short-name>dateFmt</short-name>
+<uri>http://www.asiainfo-linkage.com/ci</uri>
+<function>
+       <description>将yyyymm和yyyymmdd格式的日期转换成yyyy-mm和yyyy-mm-dd</description>
+       <name>dateFormat</name>
+       <function-class>com.asiainfo.biapp.si.common.util.DateUtil</function-class>
+       <function-signature>java.lang.String dateFormat(java.lang.String)</function-signature>
+       <example>${dateFmt:dateFormat(dataDate)}</example>
+</function>
+</taglib>

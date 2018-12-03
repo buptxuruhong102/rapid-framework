@@ -1,0 +1,16 @@
+import java.util.*;
+
+import com.jd.springmvcbase.common.base.*;
+import com.jd.springmvcbase.common.page.*;
+
+import ${basepackage}.entity.*;
+import ${basepackage}.dao.*;
+import ${basepackage}.service.*;
+import ${basepackage}.query.*;
+
+/**
+ * @author xuruhong
+ * @version 1.0
+ * @since 1.0
+ */
+

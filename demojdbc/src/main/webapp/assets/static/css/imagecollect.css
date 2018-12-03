@@ -1,0 +1,29 @@
+.oper-bar {
+	height: 41px;
+	border-color: #edf1f2;
+	background-color: #f6f8f8;
+	color: #333;
+	font-weight: 700;
+	border-radius: 2px 2px 0 0;
+	padding: 10px 15px 3px 0px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid transparent;
+	display: block;
+	clear: both;
+}
+.dataTables_wrapper .dataTables_length label{
+	margin-top: 6px;
+	margin-right: 20px;
+}
+.dataTables_wrapper .dataTables_paginate {
+	margin-top: -15px;
+}
+.dataTables_wrapper .dataTables_paginate .active  a {
+	background-color: #21b8c6;
+	border-color: #21b8c6;
+	color: #fff;
+}
+.star{
+	margin-right: 4px;
+	color: #C00;
+}
